@@ -5,15 +5,27 @@ class Solution(object):
         :type s: str
         :rtype: bool
         """
-        for i in range(0,len(s)):
+        for i in range(0, len(s)):
             # print s[i]
-            if s[i] == '(':
+            if s[i] == '(' or s[i] == '[' or s[i] == '{':
                 self.stack.append(s[i])
             elif s[i] == ')':
-                if self.stack[len(self.stack)-1] == '(':
+                if len(self.stack) > 0 and self.stack[-1] == '(':
                     print self.stack.pop(), s[i]
                 else:
                     return False
+            elif s[i] == ']':
+                if len(self.stack) > 0 and self.stack[-1] == '[':
+                    print self.stack.pop(), s[i]
+                else:
+                    return False
+            elif s[i] == '}':
+                if len(self.stack) > 0 and self.stack[-1] == '{':
+                    print self.stack.pop(), s[i]
+                else:
+                    return False
+            else:
+                return False
         if len(self.stack) > 0:
             return False
         return True
@@ -21,7 +33,8 @@ class Solution(object):
 
 def main():
     test = Solution()
-    print test.isValid('()()((()))')
+    print test.isValid(']')
+    print test.isValid('()()([]({}()))')
 
 if __name__ == '__main__':
     main()
