@@ -27,7 +27,9 @@ class Solution(object):
         cursor1.next = l1
         cursor2.next = l2
         carry = 0
-        while cursor1.next != None or cursor2.next != None:
+        ending = False
+        while not ending:
+
             if cursor1.next != None:
                 cursor1 = cursor1.next
             else:
@@ -37,10 +39,11 @@ class Solution(object):
             else:
                 cursor2.val = 0
             sum = cursor1.val + cursor2.val + carry
+            ending = (cursor1.next == None and cursor2.next == None)
             if sum >= 10:
                 sum -= 10
                 carry = 1
-                if cursor1.next == None and cursor2.next == None:
+                if ending:
                     res.next = ListNode(sum)
                     res = res.next
                     res.next = ListNode(carry)
@@ -50,6 +53,7 @@ class Solution(object):
                 carry = 0
             res.next = ListNode(sum)
             res = res.next
+
         return head.next
 
 def main():
