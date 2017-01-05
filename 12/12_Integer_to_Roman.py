@@ -22,9 +22,15 @@ class Solution(object):
     def getRoman(self, remain, level):
         res = ''
         while(remain >= level):
-            if remain > level*5:
-                remain -= level*5
-                res += self.d[level*5]
+            if remain >= level * 9:
+                remain -= level * 9
+                res += self.d[level] + self.d[level * 10]
+            elif remain >= level * 5:
+                remain -= level * 5
+                res += self.d[level * 5]
+            elif remain >= level * 4:
+                remain -= level * 4
+                res += self.d[level] + self.d[level * 5]
             else:
                 remain -= level
                 res += self.d[level]
@@ -32,10 +38,11 @@ class Solution(object):
 
 def main():
     test = Solution()
-    # print test.intToRoman(2)
-    # print test.intToRoman(4)
-    # print test.intToRoman(14)
-    # print test.intToRoman(400)
+    print test.intToRoman(2)
+    print test.intToRoman(4)
+    print test.intToRoman(14)
+    print test.intToRoman(400)
+    print test.intToRoman(500)
     print test.intToRoman(1408)
     print test.intToRoman(2517)
 
