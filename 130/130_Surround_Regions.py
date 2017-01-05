@@ -71,3 +71,15 @@ class Surround(object):
         list1[j] = newchar
         board[i] = ''.join(list1)
         return board
+
+
+def main():
+    board = ['XXXOXX', 'XOXXOO', 'OOXOXX', 'XOXOXX', 'XXOXXX', 'OXOXOX']
+    # board = ['OOXXXXO', 'OXOOXXX', 'OXXOOOO', 'XOXOOXX', 'OXOXOXO', 'XOOXXOX', 'XXXOXOX']
+    # board = ['OOXXXXO', 'OXOOXXX', 'OXXOOOO', 'XOXOOXX', 'OXOXOXO', 'XOOXXOX', 'XXXOXOX', 'XXXOXOX']
+    test = Surround()
+    test.printboard(board)
+    board = test.solve(board)
+    test.printboard(board)
+
+main()

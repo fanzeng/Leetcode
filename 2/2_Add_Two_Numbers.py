@@ -4,7 +4,7 @@ class ListNode(object):
         self.val = x
         self.next = None
 
-    def __repr__(self):
+    def __str__(self):
         node = self
         res = ""
         while node.next != None:
