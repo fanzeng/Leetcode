@@ -1,35 +1,35 @@
 class Solution(object):
-    stack = []
+
     def isValid(self, s):
         """
         :type s: str
         :rtype: bool
         """
+        stack = []
         for i in range(0, len(s)):
             # print s[i]
             if s[i] == '(' or s[i] == '[' or s[i] == '{':
-                self.stack.append(s[i])
+                stack.append(s[i])
             elif s[i] == ')':
-                if len(self.stack) > 0 and self.stack[-1] == '(':
-                    print self.stack.pop(), s[i]
+                if len(stack) > 0 and stack[-1] == '(':
+                    print stack.pop(), s[i]
                 else:
                     return False
             elif s[i] == ']':
-                if len(self.stack) > 0 and self.stack[-1] == '[':
-                    print self.stack.pop(), s[i]
+                if len(stack) > 0 and stack[-1] == '[':
+                    print stack.pop(), s[i]
                 else:
                     return False
             elif s[i] == '}':
-                if len(self.stack) > 0 and self.stack[-1] == '{':
-                    print self.stack.pop(), s[i]
+                if len(stack) > 0 and stack[-1] == '{':
+                    print stack.pop(), s[i]
                 else:
                     return False
             else:
                 return False
-        if len(self.stack) > 0:
+        if len(stack) > 0:
             return False
         return True
-
 
 def main():
     test = Solution()
