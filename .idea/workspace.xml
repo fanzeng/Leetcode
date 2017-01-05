@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c0a3aef3-9d74-4da4-ae9d-b2c9c85a09ff" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/13/13_Roman_to_Integer.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/7/7_Reverse_Integer.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -31,11 +33,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Test1.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Test1.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../ScipyTest/Test1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.4308035">
+            <state vertical-scroll-proportion="0.0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="13_Roman_to_Integer.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/13/13_Roman_to_Integer.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.7176221">
+              <caret line="28" column="6" selection-start-line="28" selection-start-column="6" selection-end-line="28" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -66,6 +78,8 @@
         <option value="$PROJECT_DIR$/130_Surrounded_Regions.py" />
         <option value="$PROJECT_DIR$/27/27_Remove_Element.py" />
         <option value="$PROJECT_DIR$/20/20_Valid_Parentheses.py" />
+        <option value="$PROJECT_DIR$/7/7_Reverse_Integer.py" />
+        <option value="$PROJECT_DIR$/13/13_Roman_to_Integer.py" />
       </list>
     </option>
   </component>
@@ -147,6 +161,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="7" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Leetcode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Leetcode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="27" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -162,6 +190,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="20" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Leetcode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Leetcode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="13" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -189,24 +231,7 @@
       <recent name="E:\Documents\PycharmProjects\Leetcode\130" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.20_Valid_Parentheses">
-    <configuration default="false" name="130_Surrounded_Regions_Test" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Leetcode" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/130/130_Surrounded_Regions.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Python.13_Roman_to_Integer">
     <configuration default="false" name="27_Remove_Element" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -254,6 +279,40 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="Leetcode" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../CannyStill/CannyWebcam.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="7_Reverse_Integer" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/7" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Leetcode" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/7/7_Reverse_Integer.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="13_Roman_to_Integer" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/13" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Leetcode" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/13/13_Roman_to_Integer.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -383,18 +442,20 @@
       <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
-    <list size="4">
-      <item index="0" class="java.lang.String" itemvalue="Python.130_Surrounded_Regions_Test" />
-      <item index="1" class="java.lang.String" itemvalue="Python.27_Remove_Element" />
-      <item index="2" class="java.lang.String" itemvalue="Python.20_Valid_Parentheses" />
-      <item index="3" class="java.lang.String" itemvalue="Python.CannyWebcam" />
+    <list size="5">
+      <item index="0" class="java.lang.String" itemvalue="Python.27_Remove_Element" />
+      <item index="1" class="java.lang.String" itemvalue="Python.20_Valid_Parentheses" />
+      <item index="2" class="java.lang.String" itemvalue="Python.CannyWebcam" />
+      <item index="3" class="java.lang.String" itemvalue="Python.7_Reverse_Integer" />
+      <item index="4" class="java.lang.String" itemvalue="Python.13_Roman_to_Integer" />
     </list>
     <recent_temporary>
-      <list size="4">
-        <item index="0" class="java.lang.String" itemvalue="Python.20_Valid_Parentheses" />
-        <item index="1" class="java.lang.String" itemvalue="Python.CannyWebcam" />
-        <item index="2" class="java.lang.String" itemvalue="Python.27_Remove_Element" />
-        <item index="3" class="java.lang.String" itemvalue="Python.130_Surrounded_Regions_Test" />
+      <list size="5">
+        <item index="0" class="java.lang.String" itemvalue="Python.13_Roman_to_Integer" />
+        <item index="1" class="java.lang.String" itemvalue="Python.7_Reverse_Integer" />
+        <item index="2" class="java.lang.String" itemvalue="Python.20_Valid_Parentheses" />
+        <item index="3" class="java.lang.String" itemvalue="Python.CannyWebcam" />
+        <item index="4" class="java.lang.String" itemvalue="Python.27_Remove_Element" />
       </list>
     </recent_temporary>
   </component>
@@ -459,16 +520,16 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1458" height="870" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24769993" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3215797" sideWeight="0.49439043" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34555712" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32863188" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24769993" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32123655" sideWeight="0.49439043" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3454301" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32258064" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39919356" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29493892" sideWeight="0.5056096" order="7" side_tool="true" content_ui="tabs" />
@@ -514,6 +575,22 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/20/20_Valid_Parentheses.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="8" column="24" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../ScipyTest/Test1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/20/20_Valid_Parentheses.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -639,10 +716,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/7/7_Reverse_Integer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="22" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../ScipyTest/Test1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.4308035">
+        <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/13/13_Roman_to_Integer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7176221">
+          <caret line="28" column="6" selection-start-line="28" selection-start-column="6" selection-end-line="28" selection-end-column="6" />
           <folding />
         </state>
       </provider>
