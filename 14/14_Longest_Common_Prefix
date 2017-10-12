@@ -1,0 +1,57 @@
+class Solution(object):
+	def longestCommonPrefix(self, strs):
+		"""
+		:type strs: List[str]
+		:rtype: str
+		"""
+		# i = 0
+		# go_on = True
+		# if len(strs) < 1:
+		# 	return ''
+		# while i < len(strs[0]):
+		# 	char_in_1_str = strs[0][i]
+		# 	for str in strs[1:]:
+		# 		if not (len(str)>i and str[i] == char_in_1_str):
+		# 			go_on = False
+		# 			break
+		# 	if go_on:
+		# 		i+=1
+		# 	else:
+		# 		break
+		# return strs[0][:i]
+
+		i = -1
+		go_on = True
+		if len(strs) < 1:
+			return ''
+		while go_on:
+			i += 1
+			try:
+				char_in_1_str = strs[0][i]
+				for str in strs[1:]:
+					if str[i] != char_in_1_str:
+						go_on = False
+			except:
+				go_on = False
+				break
+
+		return strs[0][:i]
+
+
+
+test = Solution()
+print test.longestCommonPrefix(['a', 'a', 'a'])
+print test.longestCommonPrefix(['ab', 'abc', 'abcd'])
+print test.longestCommonPrefix(['abc', 'abc', 'abcd', 'abcde'])
+print test.longestCommonPrefix(['e', 'abc', 'abcd', 'abcde'])
+print test.longestCommonPrefix(['e', 'eabc', 'abcd', 'abcde'])
+print test.longestCommonPrefix(['', 'abc', 'abcd', 'abcde'])
+print test.longestCommonPrefix(['abc', '', 'abc', 'abcd', 'abcde'])
+print test.longestCommonPrefix(['e', 'eabc', 'eabcd', 'eabcde'])
+
+
+
+
+
+
+
