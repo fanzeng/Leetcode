@@ -3,6 +3,7 @@ class Solution(object):
 		l = 0
 		r = len(nums) - 1
 		m = len(nums) / 2
+		# deal with special cases of empty nums or single element in nums
 		if len(nums) < 1:
 			return -1, -1
 		elif len(nums) == 1:
@@ -11,6 +12,7 @@ class Solution(object):
 			else:
 				return 0, 0
 
+		# find location of target using bisection
 		while (True):
 			if l >= r - 1 and nums[l] != target and nums[r] != target:
 				return -1, -1
@@ -23,6 +25,10 @@ class Solution(object):
 			else:
 				break
 		# print 'l, m, r =', l, m, r
+		# at this point, nums[m] = target, nums[l] <= target and nums[r] >= target.
+		# Note though num[m] = target, it is not necessarily the first or last one.
+
+		# next find the first target location using bisection
 		rf = m
 		lf = l
 		mf = (lf + rf) / 2
@@ -35,7 +41,9 @@ class Solution(object):
 				rf = mf
 				mf = (lf + rf) / 2
 		ans_f = mf
+		# mf is the first location of target
 
+		# next find the last target location using bisection, starting from m, r, l values after first while loop.
 		ll = m
 		rl = r
 		ml = (ll + rl) / 2
@@ -48,7 +56,7 @@ class Solution(object):
 				ll = ml
 				ml = (ll + rl + 1) / 2
 		ans_l = ml
-
+		# ml is the last location of target
 		return ans_f, ans_l
 
 test = Solution()
