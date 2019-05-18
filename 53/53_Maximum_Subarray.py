@@ -76,8 +76,8 @@ class Solution(object):
 			return nums[0], ''
 		self.initialize(nums)
 
-		for i in range(len(nums)+1):
-			if (not self.exist_positive) and i < len(nums) and nums[i] > 0:
+		for i in range(len(self.nums)+1):
+			if (not self.exist_positive) and i < len(self.nums) and self.nums[i] > 0:
 				self.exist_positive = True
 			changed = False
 			if self.is_possible_start(i):
@@ -86,15 +86,15 @@ class Solution(object):
 				changed = self.decide_end_change(i)
 			if not changed:
 				if i > self.start and i < len(self.nums):
-					self.sum_from_best_start += nums[i]
+					self.sum_from_best_start += self.nums[i]
 				if i > self.end and i < len(self.nums):
-					self.sum_from_best_end += nums[i]
+					self.sum_from_best_end += self.nums[i]
 			info += self.get_info_string(i)
 
 		self.record_candidate_solution()
-		print 'begin'
-		for s_id, s in enumerate(self.list_candidate_solution):
-			print 'sol_id, start, end, sum = ', s_id, s.start, s.end, s.sum
+		# print 'begin'
+		# for s_id, s in enumerate(self.list_candidate_solution):
+		# 	print 'sol_id, start, end, sum = ', s_id, s.start, s.end, s.sum
 		sol = self.get_best_solution()
 		self.start = sol.start
 		self.end = sol.end
