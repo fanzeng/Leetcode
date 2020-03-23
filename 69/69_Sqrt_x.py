@@ -4,6 +4,33 @@ class Solution(object):
         :type x: int
         :rtype: int
         """
+        if x == 0:
+            return 0
+        i = 1
+        while 10**i < x:
+            i += 1
+        i = max(0, (i-1)/2)
+        l = 10**i
+        r = 10**(i+1)+1
+        while l < r:
+            m = (l + r) / 2
+            if m*m > x:
+                r = m
+            elif (m+1)*(m+1) > x:
+                return m
+            else:
+                l = m
+
+test = Solution()
+print test.mySqrt(4)
+print test.mySqrt(8)
+print test.mySqrt(64)
+print test.mySqrt(66)
+print test.mySqrt(10000)
+print test.mySqrt(1000000)
+print test.mySqrt(100000000)
+print test.mySqrt(123456789)
+print test.mySqrt(183692038)
 
 
 # Implement int sqrt(int x).

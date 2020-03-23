@@ -1,9 +1,31 @@
 class Solution(object):
+    def __init__(self):
+        self.dict = {}
+
     def climbStairs(self, n):
         """
         :type n: int
         :rtype: int
         """
+        if n <= 2:
+            return n
+        else:
+            if self.dict.get(n) is not None:
+                return self.dict.get(n)
+            else:
+                res = self.climbStairs(n-1) + self.climbStairs(n-2)
+                self.dict[n] = res
+                return res
+
+test = Solution()
+print test.climbStairs(1)
+print test.climbStairs(2)
+print test.climbStairs(3)
+print test.climbStairs(4)
+print test.climbStairs(5)
+print test.climbStairs(10)
+print test.climbStairs(100)
+
 # You are climbing a stair case. It takes n steps to reach to the top.
 #
 # Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
