@@ -7,6 +7,43 @@ class Solution(object):
         :type n: int
         :rtype: None Do not return anything, modify nums1 in-place instead.
         """
+        i1 = 0
+        i2 = 0
+        merged = []
+        while True:
+            if i1 < m and (i2 == n or nums1[i1] <= nums2[i2]):
+                merged.append(nums1[i1])
+                i1 += 1
+            elif i2 < n and (i1 == m or nums1[i1] > nums2[i2]):
+                merged.append(nums2[i2])
+                i2 += 1
+            else:
+                break
+
+        for i in range(len(merged)):
+            nums1[i] = merged[i]
+
+test = Solution()
+nums1 = [1,2,3,0,0,0]
+m = 3
+nums2 = [2,5,6]
+n = 3
+test.merge(nums1, m, nums2, n)
+print nums1
+
+nums1 = [1,0]
+m = 1
+nums2 = [2]
+n = 1
+test.merge(nums1, m, nums2, n)
+print nums1
+
+nums1 = [5,6,0,0,0,0,0,0,0,0]
+m = 2
+nums2 = [1,2,3,4,7,8,9,10]
+n = 8
+test.merge(nums1, m, nums2, n)
+print nums1
 # Given two sorted integer arrays nums1 and nums2, merge nums2 into nums1 as one sorted array.
 #
 # Note:
