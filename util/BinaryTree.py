@@ -28,15 +28,19 @@ class BinaryTree(object):
             while i < len(l):
                 new_leafs = []
                 for leaf in leafs:
-                    leaf.left = TreeNode(l[i])
-                    if leaf.left.val is not None:
+                    if l[i] is not None:
+                        leaf.left = TreeNode(l[i])
                         new_leafs.append(leaf.left)
+                    else:
+                        leaf.left = None
                     i += 1
                     if i == len(l):
                         break
-                    leaf.right = TreeNode(l[i])
-                    if leaf.right.val is not None:
+                    if l[i] is not None:
+                        leaf.right = TreeNode(l[i])
                         new_leafs.append(leaf.right)
+                    else:
+                        leaf.right = None
                     i += 1
                     if i == len(l):
                         break
@@ -55,9 +59,9 @@ class BinaryTree(object):
                 l.append(None)
             else:
                 l.append(n.val)
-                if n.left is not None:
+                if True or n.left is not None:
                     q.append(n.left)
-                if n.right is not None:
+                if True or n.right is not None:
                     q.append(n.right)
         last_leaf = len(l)-1
         while l[last_leaf] is None:
