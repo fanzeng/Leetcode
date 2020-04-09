@@ -51,18 +51,15 @@ class BinaryTree(object):
         l = []
         if self.root is None:
             return l
-        n = self.root
-        q = [n]
+        q = [self.root]
         while len(q) > 0:
             n = q.pop(0)
             if n is None:
                 l.append(None)
             else:
                 l.append(n.val)
-                if True or n.left is not None:
-                    q.append(n.left)
-                if True or n.right is not None:
-                    q.append(n.right)
+                q.append(n.left)
+                q.append(n.right)
         last_leaf = len(l)-1
         while l[last_leaf] is None:
             last_leaf -= 1
