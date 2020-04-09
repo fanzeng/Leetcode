@@ -4,6 +4,28 @@ class Solution(object):
         :type prices: List[int]
         :rtype: int
         """
+
+        if len(prices) < 2:
+            return 0
+        diff = []
+        for i in xrange(len(prices)-1):
+            diff.append(prices[i+1]-prices[i])
+        profit = 0
+        for d in diff:
+            if d > 0:
+                profit += d
+        if profit > 0:
+            return profit
+        else:
+            return 0
+
+
+test = Solution()
+print test.maxProfit([7,1,5,3,6,4])
+print test.maxProfit([7,6,4,3,1])
+print test.maxProfit([7])
+print test.maxProfit([])
+
 # Say you have an array for which the ith element is the price of a given stock on day i.
 #
 # Design an algorithm to find the maximum profit. You may complete as many transactions as you like (i.e., buy one and sell one share of the stock multiple times).
