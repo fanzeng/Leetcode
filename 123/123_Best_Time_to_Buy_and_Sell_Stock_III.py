@@ -12,9 +12,11 @@ class Solution(object):
             diff.append(prices[i+1]-prices[i])
         # print 'diff=', diff
         max_profit = max(0, self.maxSubArray(diff))
+        max_start_front = 0
+        max_end_front = 0
         for i in xrange(1, len(diff)-1):
             if diff[i]*diff[i-1] < 0:
-                max_sub_array_front = self.maxSubArray(diff[:i])
+                max_sub_array_front, max_start_front, max_end_front = self.maxSubArrayBoundWithHint(diff[:i], max_start_front, max_end_front)
                 max_sub_array_back = self.maxSubArray(diff[i:])
                 max_profit = max(max_profit, max_sub_array_front + max_sub_array_back)
             # print max_sub_array_back, max_sub_array_front, max_profit
@@ -57,6 +59,32 @@ class Solution(object):
     #             max_sum = max(max_sum, sum_since_reset)
     #         return max_sum, max_start, max_end
 
+    def maxSubArrayBoundWithHint(self, nums, start_hint = 0, end_hint = 0):
+        if len(nums) == 1:
+            return nums[0], 0, 0
+        else:
+            sum_since_reset = 0
+            for i in xrange(start_hint, end_hint+1):
+                sum_since_reset += nums[i]
+            max_sum = sum_since_reset
+            start = start_hint
+            end = end_hint
+            max_start = start
+            max_end = end
+            for i in range(end_hint+1, len(nums)):
+                sum_since_reset += nums[i]
+                end = i
+                if nums[i] > sum_since_reset:
+                    sum_since_reset = nums[i]
+                    start = i
+                    end = i
+                if sum_since_reset > max_sum:
+                    max_sum = sum_since_reset
+                    max_start = start
+                    max_end = end
+                max_sum = max(max_sum, sum_since_reset)
+            # print nums, max_sum, max_start, max_end
+            return max_sum, max_start, max_end
 test = Solution()
 print test.maxProfit([3,3,5,0,0,3,1,4])
 print test.maxProfit([1,2,3,4,5])
