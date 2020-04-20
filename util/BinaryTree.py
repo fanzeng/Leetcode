@@ -17,7 +17,7 @@ class BinaryTree(object):
         elem_3 elem_4 elem_5 elem6
                     ...
     '''
-    def __init__(self, l):
+    def list2tree(self, l):
         if l is None or len(l) == 0:
             self.root = None
         else:
@@ -46,6 +46,14 @@ class BinaryTree(object):
                         break
                 leafs = new_leafs
                 self.depth += 1
+
+    def __init__(self, t):
+        if type(t) is list:
+            self.list2tree(t)
+        elif type(t) is type(TreeNode(0)):
+            self.root = t
+        else:
+            self.root = None
 
     def tolist(self):
         l = []
