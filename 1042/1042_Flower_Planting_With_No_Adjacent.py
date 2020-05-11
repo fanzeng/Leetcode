@@ -47,37 +47,32 @@ class Solution(object):
         for i in xrange(1, N+1):
             d_available_flower[i] = [1, 2, 3, 4]
 
+        d_path = {}
+        for i in xrange(1, N+1):
+            d_path[i] = []
+
+        for path in paths:
+            if path[0] > path[1]:
+                d_path[path[1]].append(path[0])
+            else:
+                d_path[path[0]].append(path[1])
+
         # without loss of generality, we can always assign 1 to 1st garden, since answer is guaranteed to exist.
         d_flower[1] = 1
         to_remove = []
+        for path in d_path[1]:
+            if 1 in d_available_flower[path]:
+                d_available_flower[path].remove(1)
 
-        sorted_paths = []
-        for path in paths:
-            if path[0] > path[1]:
-                sorted_paths.append([path[1], path[0]])
-            else:
-                sorted_paths.append(path)
-
-        for path in sorted_paths:
-            if path[0] == 1 and 1 in d_available_flower[path[1]]:
-                d_available_flower[path[1]].remove(1)
-                to_remove.append(path)
-
-        for r in to_remove:
-            sorted_paths.remove(r)
 
         for i in xrange(2, N+1):
             list_available_flower = d_available_flower[i]
             chosen_flower = list_available_flower[0]
             d_flower[i] = chosen_flower
-            to_remove = []
-            for path in sorted_paths:
-                if path[0] == i and chosen_flower in d_available_flower[path[1]]:
-                    d_available_flower[path[1]].remove(chosen_flower)
-                    to_remove.append(path)
+            for path in d_path[i]:
+                if chosen_flower in d_available_flower[path]:
+                    d_available_flower[path].remove(chosen_flower)
 
-            for r in to_remove:
-                sorted_paths.remove(r)
         res = [d_flower[i] for i in xrange(1, N+1)]
         return res
 
