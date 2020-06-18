@@ -4,40 +4,51 @@ class Solution(object):
         :type nums: List[int]
         :rtype: List[int]
         """
+        self.memoi = {}
         return self.maxCompleteSubset(nums)
 
     def maxCompleteSubset(self, V):
+        if self.memoi.get(self.hash(V)) is not None:
+            return self.memoi.get(self.hash(V))
         max_size = 0
         maxCompleteSubset = []
+        remaining = V[:]
         for v in V:
-            completeSubset = self.maxCompleteSubsetSingleSource(v, V)
+            completeSubset = self.maxCompleteSubsetSingleSource(v, remaining)
             # print 'completeSubset for', v, 'is', completeSubset
             if len(completeSubset) > max_size:
                 max_size = len(completeSubset)
                 maxCompleteSubset = completeSubset
+            remaining.remove(v)
+        self.memoi[self.hash(V)] = maxCompleteSubset
         return maxCompleteSubset
 
     def maxCompleteSubsetSingleSource(self, s, V):
         completeSubset = [s]
-        adj = self.getAdj(V)
-        if adj.get(s) is None:
+        adj = self.getAdj(s, V)
+        if len(adj) == 0:
             return completeSubset
-        return [s] + self.largestDivisibleSubset(adj.get(s))
+        return [s] + self.maxCompleteSubset(adj)
 
 
     def hasEdge(self, a, b):
         return a % b == 0 or b % a == 0
 
-    def getAdj(self, V):
-        adj = {}
-        for s in V:
-            adj[s] = []
-            for v in V:
-                if v == s:
-                    continue
-                if self.hasEdge(v, s):
-                    adj[s].append(v)
+    def getAdj(self, s, V):
+        adj = []
+        for v in V:
+            if v == s:
+                continue
+            if self.hasEdge(v, s):
+                adj.append(v)
         return adj
+
+    def hash(self, l):
+        s = ''
+        for n in sorted(l):
+            s += str(n)
+            s += '.'
+        return s
 
 test = Solution()
 print test.largestDivisibleSubset([1,2,3]) # [1, 2] or [1, 3]
