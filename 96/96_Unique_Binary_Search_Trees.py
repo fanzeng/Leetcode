@@ -13,9 +13,9 @@ class Solution(object):
         if arr is None or len(arr) == 0:
             return 1
         count = 0
-        for n in arr:
-            arr_l = [x for x in arr if x < n]
-            arr_r = [x for x in arr if x > n]
+        for i, n in enumerate(arr):
+            arr_l = arr[:i]
+            arr_r = arr[i+1:]
             # print n, arr_l, arr_r
             count += self.numTreesRecursive(arr_l)*self.numTreesRecursive(arr_r)
         self.d[self.getHash(arr)] = count
@@ -30,3 +30,4 @@ class Solution(object):
 
 test = Solution()
 print test.numTrees(3) # 5
+print test.numTrees(19) # 1767263190
