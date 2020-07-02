@@ -10,9 +10,13 @@ class Solution(object):
         self.w = len(board[0])
         self.words = words
         self.d = {}
+        self.d_board_count = {}
+        self.countBoard()
         res = []
         for word in self.words:
             self.resetUsed()
+            if not self.isPossible(word):
+                continue
             findword_res = self.findWord(word)
             if findword_res is not None:
                 res.append(findword_res[0])
@@ -104,6 +108,30 @@ class Solution(object):
         if c + 1 < self.w and self.used[r][c+1] == 0:
             neighbors.append((r, c+1))
         return neighbors
+
+    # quickly filter out impossible cases, returns False is impossible
+    # however, a return value of True only means it's not impossible after a quick examination,
+    # it does not mean that it's possible.
+    def isPossible(self, word):
+        for i, char in enumerate(word):
+            if self.d_board_count.get(char) is None or self.d_board_count[char] == 0:
+                return False
+            if self.d_board_count[char] == 1 and i + 1 < len(word):
+                found = False
+                r, c = self.findLetter(char)[0]
+                for (nr, nc) in self.getNeighbors(r, c):
+                    if self.board[nr][nc] == word[i+1]:
+                        found = True
+                return found
+        return True
+
+    def countBoard(self):
+        for board_row in self.board:
+            for char in board_row:
+                if self.d_board_count.get(char) is None:
+                    self.d_board_count[char] = 1
+                else:
+                    self.d_board_count[char] += 1
 
 board_0 = [
   ['o','a','a','n'],
