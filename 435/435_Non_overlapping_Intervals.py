@@ -12,40 +12,47 @@ class Solution(object):
             if str(intv[0]) + ',' + str(intv[1]) not in all_intv_str:
                 self.intervals.append(intv)
         self.repeat_count = len(intervals) - len(self.intervals)
+        self.adj = []
+        for i, intv in enumerate(self.intervals):
+            self.adj.append(self.getOverlapIntervalIds(intv, self.intervals))
         self.d = {}
-        max_non_overlap = self.addIntervalDP([], self.intervals)
-        self.remove_count = len(self.intervals) - len(max_non_overlap)
+        max_non_overlap = self.addIntervalDP([], range(len(self.intervals)))
+        self.remove_count = len(self.intervals) - max_non_overlap
         res = self.repeat_count + self.remove_count
         return res
 
-    def addIntervalDP(self, non_overlap, remaining_intervals):
-        if len(remaining_intervals) == 0:
-            return non_overlap
-        h = self.getHash(non_overlap, remaining_intervals)
+    def addIntervalDP(self, non_overlap_ids, available_choices):
+        if len(available_choices) == 0:
+            return len(non_overlap_ids)
+        intv_id = available_choices[0]
+        h = self.getHash(non_overlap_ids, available_choices)
         if self.d.get(h) is not None:
             return self.d[h]
-        candidate = remaining_intervals[0]
-        res_not_include = self.addIntervalDP(non_overlap[:], remaining_intervals[1:])
-        if self.isOverlapAny(candidate, non_overlap):
-            return res_not_include
-        else:
-            non_overlap.append(candidate)
-            res_include = self.addIntervalDP(non_overlap[:], remaining_intervals[1:])
-            res_max = max(res_not_include, res_include, key=lambda x:len(x))
-            self.d[h] = res_max
-            return res_max
+        res_not_include = self.addIntervalDP(non_overlap_ids[:], available_choices[1:])
+        available_choices_include = available_choices[1:]
+        for j in self.adj[intv_id]:
+            if j in available_choices_include:
+                available_choices_include.remove(j)
+        res_include = self.addIntervalDP(non_overlap_ids + [intv_id], available_choices_include[:])
+        res_max = max(res_not_include, res_include)
+        self.d[h] = res_max
+        return res_max
 
     def isOverlap(self, a, b):
         return a[1] > b[0] and a[0] < b[1]
 
-    def isOverlapAny(self, a, l_intervals):
-        for intv in l_intervals:
-            if self.isOverlap(a, intv):
-                return True
-        return False
+    def getOverlapIntervalIds(self, i, intervals):
+        overlap_interval_ids = []
+        for j, intv in enumerate(intervals):
+            if self.isOverlap(i, intv):
+                overlap_interval_ids.append(j)
+        return overlap_interval_ids
 
-    def getHash(self, non_overlap, remaining_intervals):
-        return str(len(non_overlap)) + ' ' + str(len(remaining_intervals))
+    def getHash(self, non_overlap_ids, available_choices):
+        h = str(len(non_overlap_ids))
+        for choice in available_choices:
+            h += str(choice) + ','
+        return h
 
 test = Solution()
 print test.eraseOverlapIntervals([[1,2],[2,3],[3,4],[1,3]]) # 1
