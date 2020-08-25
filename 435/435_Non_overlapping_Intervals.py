@@ -6,94 +6,46 @@ class Solution(object):
         """
         if len(intervals) < 2:
             return 0
-
         self.intervals = []
-        self.adj = {}
-        self.d_count = {}
-        for i in intervals:
-            if self.d_count.get(self.getIntervalHash(i)) is None:
-                self.d_count[self.getIntervalHash(i)] = 1
-                self.intervals.append(i)
-            else:
-                self.d_count[self.getIntervalHash(i)] += 1
-        self.count = sum(self.d_count.values()) - len(self.d_count.values())
-        for i in self.intervals:
-            self.adj[self.getIntervalHash(i)] = self.getOverlapIntervals(i, self.intervals)
-        # print self.adj
+        all_intv_str = [str(i[0]) + ',' + str(i[1]) for i in self.intervals]
+        for intv in intervals:
+            if str(intv[0]) + ',' + str(intv[1]) not in all_intv_str:
+                self.intervals.append(intv)
+        self.repeat_count = len(intervals) - len(self.intervals)
         self.d = {}
-        self.count += self.removeIntervalRecursive(self.adj)
-        return self.count
+        max_non_overlap = self.addIntervalDP([], self.intervals)
+        self.remove_count = len(self.intervals) - len(max_non_overlap)
+        res = self.repeat_count + self.remove_count
+        return res
 
-    def removeIntervalRecursive(self, adj):
-        # print 'adj =', adj
-        if self.d.get(self.getAdjHash(adj)) is not None:
-            return self.d.get(self.getAdjHash(adj))
-        if self.isAllGood(adj):
-            # print 'all good.'
-            self.d[self.getAdjHash(adj)] = 0
-            return 0
-        max_adj_count = max([len(item[1]) for item in adj.items()])
-        max_adj_intervals = []
-        for item in adj.items():
-            if len(item[1]) == max_adj_count:
-                max_adj_intervals.append(self.getIntervalFromHash(item[0]))
-        # print 'max_adj =', max_adj
-        if len(max_adj_intervals) == 1:
-            adj_tmp = self.removeInteval(adj, max_adj_intervals[0])
-            res = 1 + self.removeIntervalRecursive(adj_tmp)
-            self.d[self.getAdjHash(adj)] = res
-            return res
-        list_count = []
-        for inteval_to_remove in max_adj_intervals:
-            # print 'remove:', inteval_to_remove
-            adj_tmp = self.removeInteval(adj, inteval_to_remove)
-            count_res = self.removeIntervalRecursive(adj_tmp)
-            # print 'count_res =', count_res
-            list_count.append(1 + count_res)
-            if count_res == 0:
-                break
-        # print 'list_count =', list_count
-        # print 'returning', 1 + min(list_count)
-        self.d[self.getAdjHash(adj)] = min(list_count)
-        return min(list_count)
-
-    def getOverlapIntervals(self, i, intervals):
-        overlap_intervals = []
-        for j in intervals:
-            if self.isOverlap(i, j):
-                overlap_intervals.append(j)
-        return overlap_intervals
+    def addIntervalDP(self, non_overlap, remaining_intervals):
+        if len(remaining_intervals) == 0:
+            return non_overlap
+        h = self.getHash(non_overlap, remaining_intervals)
+        if self.d.get(h) is not None:
+            return self.d[h]
+        candidate = remaining_intervals[0]
+        res_not_include = self.addIntervalDP(non_overlap[:], remaining_intervals[1:])
+        if self.isOverlapAny(candidate, non_overlap):
+            return res_not_include
+        else:
+            non_overlap.append(candidate)
+            res_include = self.addIntervalDP(non_overlap[:], remaining_intervals[1:])
+            res_max = max(res_not_include, res_include, key=lambda x:len(x))
+            self.d[h] = res_max
+            return res_max
 
     def isOverlap(self, a, b):
-        return a[1] > b[0] and a[0] < b[1] and (a[0] != b[0] or a[1] != b[1])
+        return a[1] > b[0] and a[0] < b[1]
 
-    def getIntervalHash(self, a):
-        return '[' + str(a[0]) + ',' + str(a[1]) + ']'
+    def isOverlapAny(self, a, l_intervals):
+        for intv in l_intervals:
+            if self.isOverlap(a, intv):
+                return True
+        return False
 
-    def getIntervalFromHash(self, h):
-        return [int(s) for s in h.strip('[]').split(',')]
-
-    def getAdjHash(self, adj):
-        s = ''
-        for item in sorted(adj.items(), key=lambda x:x[0]):
-            if len(item[1]) > 0:
-                s += self.getIntervalHash(item[0]) + ','
-        return s
-
-    def isAllGood(self, adj):
-        for v in adj.values():
-            if len(v) > 0:
-                return False
-        return True
-
-    def removeInteval(self, adj_in, i):
-        from copy import deepcopy
-        adj = deepcopy(adj_in)
-        adj.pop(self.getIntervalHash(i))
-        for v in adj.values():
-            if i in v:
-                v.remove(i)
-        return adj
+    def getHash(self, non_overlap, remaining_intervals):
+        return str(len(non_overlap)) + ' ' + str(len(remaining_intervals))
 
 test = Solution()
 print test.eraseOverlapIntervals([[1,2],[2,3],[3,4],[1,3]]) # 1
