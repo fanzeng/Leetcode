@@ -6,18 +6,8 @@ class Solution(object):
         """
         if len(intervals) < 2:
             return 0
-        self.intervals = []
-        all_intv_str = []
-        for intv in intervals:
-            intv_str = str(intv[0]) + ',' + str(intv[1])
-            if intv_str not in all_intv_str:
-                self.intervals.append(intv)
-            all_intv_str.append(intv_str)
-        self.repeat_count = len(intervals) - len(self.intervals)
-        self.intervals.sort(key=lambda x:x[0])
-        max_non_overlap = self.maxNonOverlapIntervalGreedy(self.intervals)
-        self.remove_count = len(self.intervals) - max_non_overlap
-        res = self.repeat_count + self.remove_count
+        intervals = sorted(intervals, key=lambda x:x[0])
+        res = len(intervals) - self.maxNonOverlapIntervalGreedy(intervals)
         return res
 
     def maxNonOverlapIntervalGreedy(self, intervals):
@@ -27,16 +17,16 @@ class Solution(object):
         return len(non_overlap_intervals)
 
     def processInterval(self, non_overlap_intervals, intv):
-        overlap_ids = []
-        for i, interval in enumerate(non_overlap_intervals):
-            if self.isOverlap(interval, intv):
-                overlap_ids.append(i)
-        non_overlap_intervals.append(intv)
-        overlap_ids.append(len(non_overlap_intervals)-1)
-        earliest_finish_id = min([item for item in zip(overlap_ids, [non_overlap_intervals[id][1] for id in overlap_ids])], key=lambda x:x[1])[0]
-        for id in overlap_ids:
-            if id != earliest_finish_id:
-                non_overlap_intervals.pop(id)
+        if len(non_overlap_intervals) == 0:
+            return [intv]
+        if self.isOverlap(non_overlap_intervals[-1], intv):
+            last = non_overlap_intervals.pop()
+            if intv[1] > last[1]:
+                non_overlap_intervals.append(last)
+            else:
+                non_overlap_intervals.append(intv)
+        else:
+            non_overlap_intervals.append(intv)
         return non_overlap_intervals
 
     def isOverlap(self, a, b):
