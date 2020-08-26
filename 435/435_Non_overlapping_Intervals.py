@@ -14,6 +14,7 @@ class Solution(object):
                 self.intervals.append(intv)
             all_intv_str.append(intv_str)
         self.repeat_count = len(intervals) - len(self.intervals)
+        self.intervals.sort(key=lambda x:x[0])
         max_non_overlap = self.maxNonOverlapIntervalRecursive(self.intervals)
         self.remove_count = len(self.intervals) - max_non_overlap
         res = self.repeat_count + self.remove_count
@@ -22,36 +23,71 @@ class Solution(object):
     def maxNonOverlapIntervalRecursive(self, intervals):
         if len(intervals) < 2:
             return len(intervals)
+        if len(intervals) == 2:
+            return 1 if self.isOverlap(intervals[0], intervals[1]) else 2
         interval_left, interval_mid, interval_right = self.separateToNonOverlap(intervals)
-        res_no_mid = self.maxNonOverlapIntervalRecursive(interval_left[:]) + self.maxNonOverlapIntervalRecursive(interval_right[:])
+        left_res = self.maxNonOverlapIntervalRecursive(interval_left)
+        right_res = self.maxNonOverlapIntervalRecursive(interval_right)
+        res_no_mid = left_res + right_res
         if len(interval_mid) == 0:
             return res_no_mid
         res_with_mid = []
         for intv in interval_mid:
-            interval_left_temp = self.removeOverlapped(interval_left[:], intv)
-            interval_right_temp = self.removeOverlapped(interval_right[:], intv)
-            res_with_mid.append(1 + self.maxNonOverlapIntervalRecursive(interval_left_temp[:]) + self.maxNonOverlapIntervalRecursive(interval_right_temp[:]))
+            interval_left_temp = self.removeOverlapped(interval_left, intv, from_right=True)
+            interval_right_temp = self.removeOverlapped(interval_right, intv, from_right=False)
+            if len(interval_left_temp) < interval_left:
+                left_res_with_mid = self.maxNonOverlapIntervalRecursive(interval_left_temp)
+            else:
+                left_res_with_mid = left_res
+            if len(interval_right_temp) < interval_right:
+                right_res_with_mid = self.maxNonOverlapIntervalRecursive(interval_right_temp)
+            else:
+                right_res_with_mid = right_res
+            res_with_mid.append(1 + left_res_with_mid + right_res_with_mid)
         return max(res_no_mid, max(res_with_mid))
 
-    def removeOverlapped(self, intervals, intv):
-        intervals_new = []
-        for i in intervals:
-            if not self.isOverlap(i, intv):
-                intervals_new.append(i)
-        return intervals_new
+    def removeOverlapped(self, intervals, intv, from_right):
+        if len(intervals) == 0:
+            return intervals
+        if from_right:
+            intervals_new = []
+            for i in intervals:
+                if not self.isOverlap(i, intv):
+                    intervals_new.append(i)
+            return intervals_new
+        else:
+            i = 0
+            while intervals[i][0] < intv[1]:
+                i += 1
+                if i == len(intervals):
+                    return []
+            return intervals[i:]
 
     def separateToNonOverlap(self, intervals):
         pivot = self.getPivot(intervals)
-        interval_left = []
-        interval_mid = []
-        interval_right = []
-        for intv in intervals:
-            if intv[1] <= pivot:
-                interval_left.append(intv)
-            elif intv[0] >= pivot:
-                interval_right.append(intv)
-            else:
-                interval_mid.append(intv)
+        left_id = len(intervals) / 2
+        while intervals[left_id][1] > pivot:
+            left_id -= 1
+            if left_id == -1:
+                break
+        if left_id == -1:
+            interval_left = []
+        else:
+            interval_left = intervals[:left_id+1]
+
+        right_id = len(intervals) / 2
+        while intervals[right_id][0] < pivot:
+            right_id += 1
+            if right_id == len(intervals):
+                break
+
+        if right_id == len(intervals):
+            interval_right = []
+        else:
+            interval_right = intervals[right_id:]
+
+        interval_mid = intervals[left_id+1:right_id]
+
         return interval_left, interval_mid, interval_right
 
     def getMinStart(self, intervals):
@@ -61,7 +97,8 @@ class Solution(object):
         return max([i[1] for i in intervals])
 
     def getPivot(self, intervals):
-        return (self.getMinStart(intervals) + self.getMaxEnd(intervals)) / 2
+        mid_intv = intervals[len(intervals) / 2]
+        return (mid_intv[0] + mid_intv[1]) / 2
 
     def isOverlap(self, a, b):
         return a[1] > b[0] and a[0] < b[1]
