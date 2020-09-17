@@ -19,29 +19,17 @@ class Solution(object):
             if len(self.l_id_a) > 0:
                 msb = bit
                 break
+        max_possible = int('1'*(32-msb), 2)
         # print self.l_id_a
-        self.d_id_a = {}
-        for id_a in self.l_id_a:
-            l_id_b = [id for id in range(len(nums)) if id != id_a]
-            for bit in xrange(msb, 32):
-                bit_val_a = self.getBitVal(id_a, bit)
-                next_l_id_b = []
-                for id_b in l_id_b:
-                    bit_val_b = self.getBitVal(id_b, bit)
-                    if bit_val_a != bit_val_b:
-                        next_l_id_b.append(id_b)
-                if len(next_l_id_b) > 0:
-                    l_id_b = next_l_id_b
-                if bit == 31:
-                    self.d_id_a[id_a] = l_id_b
-                # print bit, next_l_id_b
-        # print self.d_id_a
         max_xor = 0
         for id_a in self.l_id_a:
-            id_b = self.d_id_a[id_a][0]
-            temp_xor = nums[id_a]^nums[id_b]
-            if temp_xor > max_xor:
-                max_xor = temp_xor
+            l_id_b = [id for id in range(len(nums)) if id != id_a]
+            for id_b in l_id_b:
+                temp_xor = nums[id_a]^nums[id_b]
+                if temp_xor > max_xor:
+                    max_xor = temp_xor
+                if max_xor == max_possible:
+                    return max_possible
         return max_xor
 
     def toBinaryStr(self, num):
