@@ -7,34 +7,39 @@ class Solution(object):
         self.A = A
         if 1 in self.A:
             self.A.remove(1)
-        self.l_prime = self.getPrimes(max(A))
+        self.max_A = max(A)
+        self.l_prime = self.getPrimes(self.max_A)
         self.s_prime = set(self.l_prime)
         self.d_id_to_count = {}
+        self.d_num_to_pos = {}
         self.l_id = [-1]*len(A)
         self.d_id_to_pos = {}
-
-        for prime in self.l_prime:
-            i = 0
-            while i < len(A):
-                if A[i] % prime == 0:
+        for i, a in enumerate(A):
+            self.d_num_to_pos[a] = i
+        for p in self.l_prime:
+            i = None
+            m = 1
+            while (m*p) < self.max_A:
+                i = self.d_num_to_pos.get(m*p)
+                if i is not None:
                     break
-                i += 1
-            if i == len(A):
+                m += 1
+            if i is None:
                 continue
             root_a = self.find(i)
             if root_a < 0:
                 root_a = i
                 self.l_id[i] = i
-            while i+1 < len(A):
-                i += 1
-                if A[i] % prime != 0:
-                    continue
-                if self.l_id[i] < 0:
-                    self.l_id[i] = root_a
-                else:
-                    root_b = self.find(i)
-                    if root_b != root_a:
-                        self.l_id[root_b] = root_a
+            while (m+1)*p <= self.max_A:
+                m += 1
+                j = self.d_num_to_pos.get(m*p)
+                if j is not None:
+                    if self.l_id[j] < 0:
+                        self.l_id[j] = root_a
+                    else:
+                        root_b = self.find(j)
+                        if root_b != root_a:
+                            self.l_id[root_b] = root_a
         for i, a in enumerate(A):
             id = self.find(i)
             if self.d_id_to_count.get(id) is None:
