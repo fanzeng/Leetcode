@@ -9,36 +9,47 @@ class Solution(object):
             self.A.remove(1)
         self.l_prime = self.getPrimes(max(A))
         self.s_prime = set(self.l_prime)
-        self.d_prime_to_id = {}
-        self.d_id_to_prime = {}
         self.d_id_to_count = {}
-        for a in A:
-            count = 1
-            if a in self.s_prime:
-                primes = [a]
-            else:
-                primes = self.primeFactorization(a, self.l_prime)
-            ids = [self.d_prime_to_id.get(prime) for prime in primes]
-            ids_no_none = [id for id in ids if id is not None]
-            if len(ids_no_none) > 0:
-                id = min(ids_no_none)
-            else:
-                id = primes[0]
-            for prime in primes:
-                old_id = self.d_prime_to_id.get(prime)
-                if old_id is not None:
-                    for key in self.d_id_to_prime[old_id]:
-                        self.d_prime_to_id[key] = id
-                    if self.d_id_to_count.get(old_id) is not None:
-                        count += self.d_id_to_count[old_id]
-                        self.d_id_to_count.pop(old_id)
+        self.l_id = [-1]*len(A)
+        self.d_id_to_pos = {}
+
+        for prime in self.l_prime:
+            i = 0
+            while i < len(A):
+                if A[i] % prime == 0:
+                    break
+                i += 1
+            if i == len(A):
+                continue
+            root_a = self.find(i)
+            if root_a < 0:
+                root_a = i
+                self.l_id[i] = i
+            while i+1 < len(A):
+                i += 1
+                if A[i] % prime != 0:
+                    continue
+                if self.l_id[i] < 0:
+                    self.l_id[i] = root_a
                 else:
-                    self.d_prime_to_id[prime] = id
-                if self.d_id_to_prime.get(id) is None:
-                    self.d_id_to_prime[id] = set()
-                self.d_id_to_prime[id].add(prime)
-            self.d_id_to_count[id] = count
+                    root_b = self.find(i)
+                    if root_b != root_a:
+                        self.l_id[root_b] = root_a
+        for i, a in enumerate(A):
+            id = self.find(i)
+            if self.d_id_to_count.get(id) is None:
+                self.d_id_to_count[id] = 1
+            else:
+                self.d_id_to_count[id] += 1
         return max(self.d_id_to_count.values())
+
+    def find(self, pos):
+        id = pos
+        if self.l_id[id] < 0:
+            return self.l_id[id]
+        while self.l_id[id] != id:
+            id = self.l_id[id]
+        return id
 
     def getPrimes(self, max_num):
         l_not_prime = set()
@@ -52,19 +63,6 @@ class Solution(object):
             if p*p > max_num:
                 break
         return [x for x in xrange(2, max_num+1) if x not in l_not_prime]
-
-    def primeFactorization(self, num, l_primes=None):
-        if l_primes is None:
-            l_primes = self.getPrimes(num)
-        l_factor = []
-        for prime in l_primes:
-            if num == 1 or num < prime:
-                break
-            if num % prime == 0:
-                l_factor.append(prime)
-                while num % prime == 0:
-                    num /= prime
-        return l_factor
 
 test = Solution()
 
