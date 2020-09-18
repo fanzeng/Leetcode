@@ -30,22 +30,19 @@ class Solution(object):
             if root_a < 0:
                 root_a = i
                 self.l_id[i] = i
+                self.d_id_to_count[root_a] = 1
             while (m+1)*p <= self.max_A:
                 m += 1
                 j = self.d_num_to_pos.get(m*p)
                 if j is not None:
                     if self.l_id[j] < 0:
                         self.l_id[j] = root_a
+                        self.d_id_to_count[root_a] += 1
                     else:
                         root_b = self.find(j)
                         if root_b != root_a:
                             self.l_id[root_b] = root_a
-        for i, a in enumerate(A):
-            id = self.find(i)
-            if self.d_id_to_count.get(id) is None:
-                self.d_id_to_count[id] = 1
-            else:
-                self.d_id_to_count[id] += 1
+                            self.d_id_to_count[root_a] += self.d_id_to_count[root_b]
         return max(self.d_id_to_count.values())
 
     def find(self, pos):
