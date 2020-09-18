@@ -8,45 +8,49 @@ class Solution(object):
         if 1 in self.A:
             self.A.remove(1)
         self.components = {}
-        self.d_num_to_prime_factor = {}
+        self.num_to_prime_factor = {}
         self.prime_factor_to_num = {}
         self.unprocessed = set(A)
         self.l_prime = self.getPrimes(max(A))
         self.unprocessed_primes = set(self.l_prime)
         for a in self.unprocessed:
-            primes = self.primeFactorization(a, self.l_prime)
-            self.d_num_to_prime_factor[a] = primes
+            if a in self.l_prime:
+                primes = [a]
+            else:
+                primes = self.primeFactorization(a, self.l_prime)
+            self.num_to_prime_factor[a] = primes
             for prime in primes:
                 if self.prime_factor_to_num.get(prime) is None:
                     self.prime_factor_to_num[prime] = {a}
                 else:
                     self.prime_factor_to_num[prime].add(a)
-        # print self.d_num_to_prime_factor
 
-        while len(self.unprocessed) > 0:
-            v = self.unprocessed.pop()
-            self.components[v] = {v}
-            self.BFS(v, v)
+        while len(self.unprocessed_primes) > 0:
+            prime = min(self.unprocessed_primes)
+            self.unprocessed_primes.remove(prime)
+            # prime = self.unprocessed_primes.pop()
+            if self.prime_factor_to_num.get(prime) is None:
+                continue
+            self.components[prime] = set()
+            self.BFS(prime, prime)
             if len(max(self.components.values())) > len(A)/2:
                 break
         # print self.components
         return len(max(self.components.items(), key=lambda x:len(x[1]))[1])
 
-    def BFS(self, node, tag):
-        queue = [node]
+    def BFS(self, prime, tag):
+        queue = [prime]
         while len(queue) > 0:
-            v = queue.pop(0)
-            primes = self.d_num_to_prime_factor[v]
-            for prime in primes:
-                if prime not in self.unprocessed_primes:
-                    continue
-                self.unprocessed_primes.remove(prime)
-                l_u = self.prime_factor_to_num[prime]
-                for u in l_u:
-                    if u in self.unprocessed:
-                        self.unprocessed.remove(u)
-                        self.components[tag].add(u)
-                        queue.append(u)
+            v = min(queue)
+            queue.remove(v)
+            # v = queue.pop()
+            nums = self.prime_factor_to_num[v]
+            self.components[tag] = self.components[tag].union(nums)
+            for num in nums:
+                primes = self.num_to_prime_factor[num]
+                queue += [p for p in primes if p in self.unprocessed_primes]
+                self.unprocessed_primes -= set(primes)
+
 
     def getPrimes(self, max_num):
         l_not_prime = set()
