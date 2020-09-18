@@ -7,50 +7,38 @@ class Solution(object):
         self.A = A
         if 1 in self.A:
             self.A.remove(1)
-        self.components = {}
-        self.num_to_prime_factor = {}
-        self.prime_factor_to_num = {}
-        self.unprocessed = set(A)
         self.l_prime = self.getPrimes(max(A))
-        self.unprocessed_primes = set(self.l_prime)
-        for a in self.unprocessed:
-            if a in self.l_prime:
+        self.s_prime = set(self.l_prime)
+        self.d_prime_to_id = {}
+        self.d_id_to_prime = {}
+        self.d_id_to_count = {}
+        for a in A:
+            count = 1
+            if a in self.s_prime:
                 primes = [a]
             else:
                 primes = self.primeFactorization(a, self.l_prime)
-            self.num_to_prime_factor[a] = primes
+            ids = [self.d_prime_to_id.get(prime) for prime in primes]
+            ids_no_none = [id for id in ids if id is not None]
+            if len(ids_no_none) > 0:
+                id = min(ids_no_none)
+            else:
+                id = primes[0]
             for prime in primes:
-                if self.prime_factor_to_num.get(prime) is None:
-                    self.prime_factor_to_num[prime] = {a}
+                old_id = self.d_prime_to_id.get(prime)
+                if old_id is not None:
+                    for key in self.d_id_to_prime[old_id]:
+                        self.d_prime_to_id[key] = id
+                    if self.d_id_to_count.get(old_id) is not None:
+                        count += self.d_id_to_count[old_id]
+                        self.d_id_to_count.pop(old_id)
                 else:
-                    self.prime_factor_to_num[prime].add(a)
-
-        while len(self.unprocessed_primes) > 0:
-            prime = min(self.unprocessed_primes)
-            self.unprocessed_primes.remove(prime)
-            # prime = self.unprocessed_primes.pop()
-            if self.prime_factor_to_num.get(prime) is None:
-                continue
-            self.components[prime] = set()
-            self.BFS(prime, prime)
-            if len(max(self.components.values())) > len(A)/2:
-                break
-        # print self.components
-        return len(max(self.components.items(), key=lambda x:len(x[1]))[1])
-
-    def BFS(self, prime, tag):
-        queue = [prime]
-        while len(queue) > 0:
-            v = min(queue)
-            queue.remove(v)
-            # v = queue.pop()
-            nums = self.prime_factor_to_num[v]
-            self.components[tag] = self.components[tag].union(nums)
-            for num in nums:
-                primes = self.num_to_prime_factor[num]
-                queue += [p for p in primes if p in self.unprocessed_primes]
-                self.unprocessed_primes -= set(primes)
-
+                    self.d_prime_to_id[prime] = id
+                if self.d_id_to_prime.get(id) is None:
+                    self.d_id_to_prime[id] = set()
+                self.d_id_to_prime[id].add(prime)
+            self.d_id_to_count[id] = count
+        return max(self.d_id_to_count.values())
 
     def getPrimes(self, max_num):
         l_not_prime = set()
@@ -63,7 +51,7 @@ class Solution(object):
                 n += p
             if p*p > max_num:
                 break
-        return [x for x in xrange(2, max_num) if x not in l_not_prime]
+        return [x for x in xrange(2, max_num+1) if x not in l_not_prime]
 
     def primeFactorization(self, num, l_primes=None):
         if l_primes is None:
@@ -85,6 +73,8 @@ test = Solution()
 # print test.gcd(6,35) # 1
 # print test.gcd(35,35) # 35
 
+# note: this Leetcode problem has very tight time constraint.
+# if you cannot run the following tests with lightening speed, you will get TLE.
 print test.largestComponentSize([4,6,15,35]) # 4
 print test.largestComponentSize([20,50,9,63]) # 2
 print test.largestComponentSize([2,3,6,7,4,12,21,39]) # 8
