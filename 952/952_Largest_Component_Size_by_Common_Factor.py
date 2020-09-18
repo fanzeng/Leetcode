@@ -8,18 +8,20 @@ class Solution(object):
         if 1 in self.A:
             self.A.remove(1)
         self.max_A = max(A)
-        self.l_prime = self.getPrimes(self.max_A)
-        self.s_prime = set(self.l_prime)
+        self.l_not_prime = [False]*(self.max_A+1)
         self.d_id_to_count = {}
         self.d_num_to_pos = {}
         self.l_id = [-1]*len(A)
         self.d_id_to_pos = {}
         for i, a in enumerate(A):
             self.d_num_to_pos[a] = i
-        for p in self.l_prime:
+        for p in xrange(2, self.max_A):
+            if self.l_not_prime[p]:
+                continue
             i = None
             m = 1
             while (m*p) < self.max_A:
+                self.l_not_prime[m*p] = True
                 i = self.d_num_to_pos.get(m*p)
                 if i is not None:
                     break
@@ -33,6 +35,7 @@ class Solution(object):
                 self.d_id_to_count[root_a] = 1
             while (m+1)*p <= self.max_A:
                 m += 1
+                self.l_not_prime[m*p] = True
                 j = self.d_num_to_pos.get(m*p)
                 if j is not None:
                     if self.l_id[j] < 0:
