@@ -10,17 +10,17 @@ def gcd(a, b):
     return gcd(smaller, bigger % smaller)
 
 def getPrimes(max_num):
-    l_not_prime = []
-    for p in xrange(2, max_num):
+    l_not_prime = set()
+    for p in xrange(2, max_num+1):
         if p in l_not_prime:
             continue
         n = 2*p
-        while n < max_num:
-            l_not_prime.append(n)
+        while n <= max_num:
+            l_not_prime.add(n)
             n += p
-        if p*p >= max_num:
+        if p*p > max_num:
             break
-    return [x for x in xrange(2, max_num) if x not in l_not_prime]
+    return [x for x in xrange(2, max_num+1) if x not in l_not_prime]
 
 def primeFactorization(num, l_primes=None):
     if l_primes is None:
@@ -36,6 +36,6 @@ def primeFactorization(num, l_primes=None):
 if __name__ == '__main__':
     prime_1000 = getPrimes(1000)
     print 'primes under 1000:', prime_1000
-    print primeFactorization(666)
-    print primeFactorization(1024)
-    print primeFactorization(997)
+    print primeFactorization(666) # [2, 3, 37]
+    print primeFactorization(1024) # [2]
+    print primeFactorization(997) # [997]
