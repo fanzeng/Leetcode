@@ -6,7 +6,7 @@ class Solution(object):
         :type n: int
         :rtype: int
         """
-        self.d = {}
+        self.d = [[[-1 for one in range(n+1)] for zero in range(m+1)] for s in xrange(len(strs)+1)]
         self.lCountZero = []
         self.lCountOne = []
         for s in strs:
@@ -17,19 +17,19 @@ class Solution(object):
     def findMaxFormDP(self, strs, maxZero, maxOne):
         if strs is None or len(strs) == 0 or (maxZero == 0 and maxOne == 0):
             return 0
-        if self.d.get((len(strs), maxZero, maxOne)) is not None:
-            return self.d[(len(strs), maxZero, maxOne)]
+        if self.d[len(strs)][maxZero][maxOne] != -1:
+            return self.d[len(strs)][maxZero][maxOne]
         countZero = self.lCountZero[len(self.lCountZero)-len(strs)]
         countOne = self.lCountOne[len(self.lCountOne)-len(strs)]
         resNotInclude = self.findMaxFormDP(strs[1:], maxZero, maxOne)
         if maxZero - countZero < 0 or maxOne - countOne < 0:
-            self.d[(len(strs), maxZero, maxOne)] = resNotInclude
+            self.d[len(strs)][maxZero][maxOne] = resNotInclude
             return resNotInclude
         res = max(
             self.findMaxFormDP(strs[1:], maxZero - countZero, maxOne - countOne) + 1,
             resNotInclude
         )
-        self.d[(len(strs), maxZero, maxOne)] = res
+        self.d[len(strs)][maxZero][maxOne] = res
         return res
 
 test = Solution()
