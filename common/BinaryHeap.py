@@ -24,8 +24,11 @@ class Heap(object):
         return i
 
     def insert(self, val):
-        self.val.append(val)
         self.size += 1
+        if len(self.val) >= self.size:
+            self.val[self.size-1] = val
+        else:
+            self.val.append(val)
         i = self.float(self.size-1)
         return i
 
