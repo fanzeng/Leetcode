@@ -9,21 +9,22 @@ class Solution(object):
             return [max(nums)]
         res = [None]*(len(nums)-k+1)
         res[0] = max(nums[:k])
-        self.heap = MaxHeap(len(nums))
+        self.heap = MaxHeap(len(nums), k)
         for num in nums[:k]:
-            self.heap.insert(num)
+            self.heap.popInsert(num)
 
         i = 1
         for num in nums[k:]:
-            self.heap.pop(nums[i-1])
-            self.heap.insert(num)
+            self.heap.popInsert(num)
             res[i] = self.heap.val[0]
             i += 1
         return res
 
 class Heap(object):
-    def __init__(self, isGreater, sz=1):
+    def __init__(self, isGreater, sz=1, k=1):
         self.val = [None]*sz
+        self.k = k
+        self.recent = []
         self.size = 0
         self.isGreater = isGreater
 
@@ -34,6 +35,23 @@ class Heap(object):
         return 2*i + 1, 2*i + 2
 
     def swap(self, i, j):
+        if i == j:
+            return
+        i_new = None
+        j_new = None
+        if i in self.recent:
+            i_old_id = self.recent.index(i)
+            i_new = j
+        if j in self.recent:
+            j_old_id = self.recent.index(j)
+            j_new = i
+        if i_new is not None:
+            # print 'self.recent[', i_old_id, '] =', i_new
+            self.recent[i_old_id] = i_new
+        if j_new is not None:
+            # print 'self.recent[', j_old_id, '] =', j_new
+            self.recent[j_old_id] = j_new
+
         temp = self.val[i]
         self.val[i] = self.val[j]
         self.val[j] = temp
@@ -143,10 +161,19 @@ class Heap(object):
             return None
         self.popAt(i)
 
+    def popInsert(self, val):
+        if len(self.recent)+1 > self.k:
+            j = self.recent.pop(0)
+            self.popAt(j)
+        i = self.insert(val)
+        self.recent.append(i)
+        # print 'recently inserted', [self.val[pos] for pos in self.recent]
+        return i
+
 class MaxHeap(Heap):
-    def __init__(self, sz=1):
+    def __init__(self, sz=1, k=1):
         isGreater = lambda a, b: a < b
-        super(MaxHeap, self).__init__(isGreater, sz)
+        super(MaxHeap, self).__init__(isGreater, sz, k)
 
 
 test = Solution()
