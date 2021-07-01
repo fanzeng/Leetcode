@@ -9,22 +9,23 @@ class Solution(object):
             return [max(nums)]
         res = [None]*(len(nums)-k+1)
         self.heap = MaxHeap(len(nums))
-        for num in nums[:k]:
-            self.heap.insert(num)
-        res[0] = self.heap.val[0]
-
-        i = 1
-        for num in nums[k:]:
-            self.heap.pop(nums[i-1])
-            self.heap.insert(num)
-            res[i] = self.heap.val[0]
-            i += 1
+        for i in xrange(k):
+            self.heap.insert((nums[i], i))
+        res[0] = self.heap.val[0][0]
+        for i, num in enumerate(nums[k:]):
+            n = i + k
+            self.heap.insert((num, i+k))
+            while True:
+                root = self.heap.val[0]
+                if n - root[1]+1 <= k:
+                    res[i+1] = root[0]
+                    break
+                self.heap.pop()
         return res
 
 class Heap(object):
     def __init__(self, isGreater, sz=1):
         self.val = [None]*sz
-        self.d = {}
         self.size = 0
         self.isGreater = isGreater
 
@@ -35,17 +36,6 @@ class Heap(object):
         return 2*i + 1, 2*i + 2
 
     def swap(self, i, j):
-        try:
-            di = self.d[self.val[i]]
-            di[di.index(i)] = j
-        except:
-            pass
-        try:
-            dj = self.d[self.val[j]]
-            dj[dj.index(j)] = i
-        except:
-            pass
-
         temp = self.val[i]
         self.val[i] = self.val[j]
         self.val[j] = temp
@@ -62,10 +52,6 @@ class Heap(object):
         self.size += 1
         self.val[self.size - 1] = val
         i = self.float(self.size-1)
-        if self.d.get(val) is None:
-            self.d[val] = [i]
-        else:
-            self.d[val].append(i)
         return i
 
     def sink(self, i):
@@ -83,27 +69,19 @@ class Heap(object):
             i = self.sink(smaller_child_id)
         return i
 
-    def popAt(self, i):
-        val = self.val[i]
-        if i == self.size-1:
-            self.size -= 1
-            return val
-        self.swap(i, self.size-1)
+    def pop(self):
+        if len(self.val) == 0:
+            return None
+        root = self.val[0]
+        self.swap(0, self.size-1)
         self.size -= 1
-        v = self.val[i]
-        p = self.val[self.parent(i)]
-        if self.isGreater(p, v):
-            self.float(i)
-        self.sink(i)
-        return val
+        i = self.sink(0)
+        return root
 
-    def pop(self, val):
-        i = self.d[val].pop()
-        self.popAt(i)
 
 class MaxHeap(Heap):
     def __init__(self, sz=1):
-        isGreater = lambda a, b: a < b
+        isGreater = lambda a, b: a[0] < b[0]
         super(MaxHeap, self).__init__(isGreater, sz)
 
 
