@@ -8,7 +8,6 @@ class Node(object):
         self.child = child
 """
 
-
 class Solution(object):
     def flatten(self, head):
         """
@@ -19,7 +18,7 @@ class Solution(object):
 
     def flattenRecursive(self, n, rest):
         if n is None:
-            return None
+            return rest
         if n.child is None:
             if n.next is None:
                 n.next = rest
@@ -28,6 +27,7 @@ class Solution(object):
                 return n
             else:
                 n.next = self.flattenRecursive(n.next, rest)
+                n.next.prev = n
                 return n
         else:
             child = n.child
