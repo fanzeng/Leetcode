@@ -8,6 +8,7 @@ class Solution(object):
         self.matrix = matrix
         self.k = k
         self.matrix_sum = [[]]*len(self.matrix)
+        self.bst = BST()
         for i in xrange(len(self.matrix)):
             self.matrix_sum[i] = [None]*len(self.matrix[0])
         self.matrix_sum[0][0] = self.matrix[0][0]
@@ -25,13 +26,30 @@ class Solution(object):
                 arr = []
                 for j in xrange(len(self.matrix[0])):
                     arr.append(self.sumSubmatrix(i0, j, i1, j))
-                m = self.maxSubArrayLessThanK(arr)
+                m = self.maxSubArrayLessThanK(arr, self.k)
                 self.res = max(self.res, m)
 
-    def maxSubArrayLessThanK(self, arr):
-        print 'arr=', arr, self.k
-        return 0
-
+    def maxSubArrayNoLargerThanK(self, arr, k):
+        print 'arr, k=', arr, k
+        partial_sum = 0
+        arr_sum = []
+        bst = BST()
+        for i, num in enumerate(arr):
+            partial_sum += num
+            bst.insert(partial_sum, i)
+            arr_sum.append(partial_sum)
+        max_sum = bst.searchNoLargerThanK(k, 0)
+        print 'max_sum_[ 0 ]=', max_sum
+        for i in range(1, len(arr)):
+            prev_sum = arr_sum[i-1]
+            search_res = bst.searchNoLargerThanK(k + prev_sum, i)
+            if search_res is None:
+                continue
+            max_sum_i = search_res - prev_sum
+            print 'max_sum_[', i, ']=', max_sum_i
+            if max_sum_i > max_sum:
+                max_sum = max_sum_i
+        return max_sum
 
     def sumSubmatrixFromTopLeft(self, i, j):
         if self.matrix_sum[i][j] is not None:
@@ -74,11 +92,53 @@ class Solution(object):
             submatrix.append(r)
         return submatrix
 
+class BST(object):
+    def __init__(self):
+        self.val = None
+        self.index = None # keep track of position of self.val in the original array
+        self.left = None
+        self.right = None
+
+    def insert(self, n, i):
+        print 'inserting', n, 'at index', i
+        if self.val is None:
+            self.val = n
+            self.index = i
+        elif self.val > n:
+            if self.left is None:
+                self.left = BST()
+            self.left.insert(n, i)
+        else:
+            if self.right is None:
+                self.right = BST()
+            self.right.insert(n, i)            
+
+    def searchNoLargerThanK(self, k, i):
+        print 'self.val =', self.val, 'k =', k
+        if self.val == k and self.index > i:
+                return self.val
+        if self.val >= k:
+            if self.left is not None:
+                return self.left.searchNoLargerThanK(k, i)
+            else:
+                return None
+        else: # self.val < k
+            if self.right is not None:
+                right_max = self.right.searchNoLargerThanK(k, i)
+                if right_max is not None:
+                    return right_max
+        return self.val
+
 test = Solution()
-print test.maxSumSubmatrix([[1,0,1],[0,-2,3]], 2) # 2
-print test.maxSumSubmatrix([[2,2,-1]], 3) # 3
-print test.maxSumSubmatrix([[2,2,-1]], 0) # -1
-print test.maxSumSubmatrix([[5,-4,-3,4],[-3,-4,4,5],[5,1,5,-4]], 10) # 10
+# print test.maxSubArrayNoLargerThanK([1,2,3,4,5,6,7], 10) # 10
+# print test.maxSubArrayNoLargerThanK([-1,-2,3,4,5,15,16,17], 14) # 12
+# print test.maxSubArrayNoLargerThanK([2,2,-1], 3) # 3
+print test.maxSubArrayNoLargerThanK([2,2,-1], 0) # -1
+
+# print test.maxSumSubmatrix([[1,0,1],[0,-2,3]], 2) # 2
+# print test.maxSumSubmatrix([[2,2,-1]], 3) # 3
+# print test.maxSumSubmatrix([[2,2,-1]], 0) # -1
+# print test.maxSumSubmatrix([[5,-4,-3,4],[-3,-4,4,5],[5,1,5,-4]], 10) # 10
 # print test.maxSumSubmatrix([[27,5,-20,-9,1,26,1,12,7,-4,8,7,-1,5,8],[16,28,8,3,16,28,-10,-7,-5,-13,7,9,20,-9,26],[24,-14,20,23,25,-16,-15,8,8,-6,-14,-6,12,-19,-13],[28,13,-17,20,-3,-18,12,5,1,25,25,-14,22,17,12],[7,29,-12,5,-5,26,-5,10,-5,24,-9,-19,20,0,18],[-7,-11,-8,12,19,18,-15,17,7,-1,-11,-10,-1,25,17],[-3,-20,-20,-7,14,-12,22,1,-9,11,14,-16,-5,-12,14],[-20,-4,-17,3,3,-18,22,-13,-1,16,-11,29,17,-2,22],[23,-15,24,26,28,-13,10,18,-6,29,27,-19,-19,-8,0],[5,9,23,11,-4,-20,18,29,-6,-4,-11,21,-6,24,12],[13,16,0,-20,22,21,26,-3,15,14,26,17,19,20,-5],[15,1,22,-6,1,-9,0,21,12,27,5,8,8,18,-1],[15,29,13,6,-11,7,-6,27,22,18,22,-3,-9,20,14],[26,-6,12,-10,0,26,10,1,11,-10,-16,-18,29,8,-8],[-19,14,15,18,-10,24,-9,-7,-19,-14,23,23,17,-5,6]],
 # -100) # -101
 # print test.maxSumSubmatrix(
