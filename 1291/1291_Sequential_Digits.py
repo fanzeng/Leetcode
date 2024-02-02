@@ -5,27 +5,21 @@ class Solution(object):
         :type high: int
         :rtype: List[int]
         """
+        res = []
+        pow = len(str(high))
+        seqs = self.gen_sequential(pow)
+        return [n for n in seqs if n >= low and n <= high]
 
-        num_digit_low = self.getNumDigit(low)
-        num_digit_high = self.getNumDigit(high)
-        # print num_digit_low, num_digit_high
-        all_seq_digit = []
-        for num_digit in xrange(num_digit_low, num_digit_high+1):
-            all_seq_digit += self.getSeqDigit(num_digit)
-        return [x for x in all_seq_digit if x >= low and x <= high]
-
-    def getNumDigit(self, a):
-        return len(str(a))
-
-    def getSeqDigit(self, n):
-        l_seq_digit = []
-        start = 1
-        end = start + n
-        while end <= 10:
-            l_seq_digit.append(int(''.join([str(x) for x in range(start, end)])))
-            start += 1
-            end += 1
-        return l_seq_digit
+    def gen_sequential(self, n):
+        if n == 2:
+            return [12, 23, 34, 45, 56, 67, 78, 89]
+        prev = self.gen_sequential(n - 1)
+        return sorted(list(set(prev + [self.append(p) for p in prev if p % 10 < 9])))
+        
+    def append(self, p):
+        last = p % 10
+        if last < 9:
+            return p*10 + last + 1
 
 test = Solution()
 print test.sequentialDigits(100, 300) # [123,234]
