@@ -10,21 +10,15 @@ class Solution(object):
         :type root: TreeNode
         :rtype: TreeNode
         """
-        self.traverse(root, 0)
+        self.s = 0
+        self.traverse(root)
         return root
         
-    def traverse(self, n, s):
-        n.val += s
+    def traverse(self, n):
         if n.right is not None:
-            n.val += self.sumSubTree(n.right)
-            self.traverse(n.right, s)
+            self.traverse(n.right)
+        v = n.val
+        n.val += self.s
+        self.s += v
         if n.left is not None:
-           self.traverse(n.left, n.val)
-    
-    def sumSubTree(self, node):
-        s = node.val
-        if node.right is not None:
-            s += self.sumSubTree(node.right)
-        if node.left is not None:
-            s += self.sumSubTree(node.left)
-        return s
+            self.traverse(n.left)
