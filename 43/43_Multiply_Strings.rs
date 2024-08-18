@@ -44,11 +44,6 @@ impl Solution {
         if carry > 0 {
             s.push(Self::itoc(carry));
         }
-        if let Some(last_char) = s.chars().last() {
-            if last_char == '0' {
-                s.pop();
-            }
-        }
         s.chars().rev().collect()
     }
     fn single_digit_multiply(num: &String, digit: char) -> String {
@@ -62,7 +57,9 @@ impl Solution {
             carry = prod / 10;
             s.push(Self::itoc(prod % 10));
         }
-        s.push(Self::itoc(carry));
+        if carry > 0 {
+            s.push(Self::itoc(carry));
+        }
         // s.chars().rev().collect()
         s
     }
