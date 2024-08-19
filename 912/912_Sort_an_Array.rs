@@ -36,6 +36,8 @@ impl Solution {
             if *num < *p {
                 left.push(num);
             } else {
+                // Note: it's better to exclude the pivot from both left and right,
+                // so that the problem size is guaranteed to reduce
                 right.push(num);
             }
         }
