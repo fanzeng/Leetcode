@@ -22,12 +22,9 @@ class Solution(object):
                 return True
         # At this point, w1[i] is the first word that is different from w2[i]
         # From here onwards, there must be an index j such that w1[j:] == w2[i:]
-        j = i + 1
-        while j < len(s1):
-            if self.isListEqual(w1[j:], w2[i:]):
-                return True
-            j += 1
-        return False
+        # In fact, with the condition above, we can find where from w1 we should compare
+        j = i + (len(w1) - len(w2))
+        return self.isListEqual(w1[j:], w2[i:])
 
     def isListEqual(self, a1, a2):
         if len(a1) != len(a2):
