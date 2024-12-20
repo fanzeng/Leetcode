@@ -9,7 +9,6 @@ class Solution {
                 h.put(nums[i], h.get(nums[i]) - 1);
                 i++;
             }
-            // System.out.printf("i = %d, j = %d\n", i, j);
             count += j-i+1;
         }
         return count;
@@ -19,12 +18,9 @@ class Solution {
         Map.Entry<Integer, Integer> minEntry = null, maxEntry = null;
         for (Map.Entry<Integer, Integer> entry : h.entrySet()) {
             if (entry.getValue() == 0) continue;
-            // System.out.printf("Key = %d, Value = %d\n", entry.getKey(), entry.getValue());
             if (minEntry == null || entry.getKey() < minEntry.getKey()) minEntry = entry;
             if (maxEntry == null || entry.getKey() > maxEntry.getKey()) maxEntry = entry;
         }
-        // System.out.printf("maxEntry.key = %d, maxEntry.value = %d\n", maxEntry.getKey(), maxEntry.getValue());
-        // System.out.printf("minEntry.key = %d, minEntry.value = %d\n", minEntry.getKey(), minEntry.getValue());
         return Math.abs(maxEntry.getKey() - minEntry.getKey()) < 3;
     }
 }
